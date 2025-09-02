@@ -13,3 +13,4 @@ dashboardRouter.get('/admin', authorize('admin'), getAdminDashboard);
 dashboardRouter.get('/employee', getEmployeeDashboard);
 
 export default dashboardRouter;
+

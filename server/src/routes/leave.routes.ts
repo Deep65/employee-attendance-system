@@ -20,3 +20,4 @@ leaveRouter.patch('/:leaveId/approve', authorize('admin'), approveLeave);
 leaveRouter.patch('/:leaveId/reject', authorize('admin'), rejectLeave);
 
 export default leaveRouter;
+

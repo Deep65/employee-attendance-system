@@ -17,3 +17,4 @@ attendanceRouter.get('/my-attendance', getMyAttendance);
 attendanceRouter.get('/today', getTodayAttendance);
 
 export default attendanceRouter;
+

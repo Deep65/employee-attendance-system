@@ -12,7 +12,6 @@ export const checkIn = async (
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Check if already checked in today
     let attendance = await Attendance.findOne({
       employee: employeeId,
       date: today,
@@ -163,3 +162,4 @@ export const getTodayAttendance = async (
       .json({ message: 'Server error' });
   }
 };
+
