@@ -12,14 +12,15 @@
     "paths": {
       "@auth/*": ["auth/*"],
       "@config/*": ["config/*"],
-      "@constants/*": ["constants/*"],
       "@controllers/*": ["controllers/*"],
       "@middlewares/*": ["middlewares/*"],
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@custom-types/*": ["types/*"],
+      "@enums": ["/enums/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/index.ts"],
   "exclude": ["node_modules", "dist"]
 }

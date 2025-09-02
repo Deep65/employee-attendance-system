@@ -2,13 +2,17 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { connectDB } from '@config/db';
+import userRouter from '@routes/user.routes';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/health', (_req, res) =>
+  res.json({ ok: true, time: new Date().toISOString() }),
+);
 
-app.get('/health', (_req, res) => res.json({ ok: true, time: new Date().toISOString() }));
+app.use('/auth', userRouter);
 
 const PORT = process.env.PORT || 4000;
 
@@ -18,4 +22,3 @@ const PORT = process.env.PORT || 4000;
     console.log(`🚀 Server listening on port ${PORT}`);
   });
 })();
-
