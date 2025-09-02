@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import { StatusCodes } from 'http-status-codes';
 import User from '@models/user.model';
 import { generateToken } from '@utils/jwt';
-import { UserRole } from 'enums/user-role.enum';
 
 export const registerUser = async (
   req: Request,
@@ -45,7 +44,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      console.log('w');
       res
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'Invalid credentials' });

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
-    "start": "node -r tsconfig-paths/register dist/index.js"
+    "start": "node -r tsconfig-paths/register dist/index.js",
+    "seed": "ts-node -r tsconfig-paths/register src/scripts/seed.ts"
   },
   "author": "Deep Gandhi",
   "license": "ISC",
