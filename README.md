@@ -26,7 +26,7 @@ This system provides a complete solution for HR management with separate Admin a
 
 ### Frontend
 
-- **React 18** with TypeScript
+- **React 19** with TypeScript
 - **Material-UI (MUI)** for UI components
 - **Vite** for fast development
 
