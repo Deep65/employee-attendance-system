@@ -15,7 +15,7 @@ import {
   MenuItem,
   type SelectChangeEvent,
 } from "@mui/material";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { registrationStyles } from "./Registration.styles";
 import { UserRole } from "../../types";

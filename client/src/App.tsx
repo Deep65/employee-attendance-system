@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AdminLayout } from "./layouts/AdminLayout/AdminLayout.component";
 import { EmployeeLayout } from "./layouts/EmployeeLayout/EmployeeLayout";

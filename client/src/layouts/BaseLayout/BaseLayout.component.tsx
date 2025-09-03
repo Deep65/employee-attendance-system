@@ -17,7 +17,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Menu as MenuIcon, Logout } from "@mui/icons-material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { sxBaseStyles } from "./BaseLayout.styles";
 

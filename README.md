@@ -124,7 +124,7 @@ server/
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Deep65/employee-attendance-system
    cd employee-attendance-system
    ```
 
@@ -147,7 +147,6 @@ server/
 
    # Server
    PORT=4000
-   NODE_ENV=development
    ```
 
 4. **Seed the database**
@@ -289,26 +288,24 @@ Authorization: Bearer <your-jwt-token>
    Make sure to set proper environment variables for production:
    - `MONGO_URI` - Production MongoDB connection string
    - `JWT_SECRET` - Strong, unique JWT secret
-   - `NODE_ENV=production`
 
-## 🤝 Contributing
+---
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+## 🧰 Postman Collection
 
-## 📝 License
+A Postman collection is available for testing all API endpoints:
 
-This project is licensed under the ISC License.
+- Import `postman_collection.json` from the repository
+- Contains all authentication, attendance, leave, and dashboard endpoints
+- Includes sample request bodies and headers for quick testing
+
+---
 
 ## 👨‍💻 Author
 
 **Deep Gandhi**
 
-- Email: [Your Email]
-- GitHub: [Your GitHub Profile]
+- Email: [deepgandhi65@gmail.com](mailto:deepgandhi65@gmail.com)
 
 ---
 
