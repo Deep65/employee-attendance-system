@@ -1,121 +1,47 @@
 # 🏢 Employee Leave & Attendance Management System
 
-A comprehensive system for managing employee leave requests and attendance tracking with role-based access control.
+A comprehensive full-stack system for managing employee leave requests and attendance tracking with role-based access control.
 
-## 🚀 Features
+## 🚀 Overview
 
-### 👤 Authentication & Roles
+This system provides a complete solution for HR management with separate Admin and Employee interfaces, featuring automated leave calculations, attendance tracking, and comprehensive dashboards.
 
-- JWT-based authentication
-- Two roles: Admin and Employee
-- Role-based route protection
-- Secure password hashing with bcrypt
+### Key Features
 
-### 📅 Leave Request Module
+- **JWT-based Authentication** with role-based access control
+- **Leave Management** with automated balance calculations
+- **Attendance Tracking** with check-in/out functionality
+- **Admin Dashboard** for company-wide oversight
+- **Employee Dashboard** for personal management
 
-- **Employees can apply for leave with:**
-  - Start and end dates
-  - Leave type (Sick, Vacation, Work from Home)
-  - Reason for leave
-- **Validations:**
-  - Cannot request leave for past dates
-  - Cannot overlap with existing approved/pending leaves
-  - Leave balance validation
-  - Working days calculation (excludes weekends)
-- **Admin can:**
-  - View all leave requests
-  - Approve or reject leave requests
-  - Automatic leave balance deduction on approval
+## 🏗️ System Architecture
 
-### 🕒 Attendance Module
-
-- **Employees can:**
-  - Check-in and check-out daily
-  - View their attendance history
-  - View today's attendance status
-- **System tracks:**
-  - Hours worked per day
-  - Total working hours per month
-  - Present/absent status
-  - Prevents duplicate check-ins/check-outs
-
-### 📊 Dashboard
-
-- **Admin View:**
-  - Total employees count
-  - Pending leave requests
-  - Daily attendance overview
-  - Monthly attendance statistics
-  - Recent leave requests
-- **Employee View:**
-  - Remaining leave balance
-  - Today's attendance status
-  - Monthly working hours
-  - Approved leave summary
-  - Pending leave requests count
+```
+├── 📁 client/          # React frontend application
+├── 📁 server/          # Node.js backend API
+└── 📄 README.md        # This file
+```
 
 ## 🛠️ Tech Stack
 
+### Frontend
+
+- **React 18** with TypeScript
+- **Material-UI (MUI)** for UI components
+- **Vite** for fast development
+
 ### Backend
 
-- **Runtime:** Node.js with TypeScript
-- **Framework:** Express.js
-- **Database:** MongoDB with Mongoose ODM
-- **Authentication:** JWT (JSON Web Tokens)
-- **Password Hashing:** bcryptjs
-- **Validation:** Built-in validation with custom logic
+- **Node.js** with TypeScript
+- **Express.js** framework
+- **MongoDB** with Mongoose ODM
+- **JWT** authentication
 
-### Development Tools
-
-- **Hot Reloading:** nodemon
-- **TypeScript:** Full TypeScript support
-- **Code Quality:** ESLint + Prettier
-- **Path Aliases:** Clean import paths
-
-## 📁 Project Structure
-
-```
-server/
-├── src/
-│   ├── config/          # Database configuration
-│   ├── controllers/     # Business logic handlers
-│   │   ├── user.controller.ts
-│   │   ├── attendance.controller.ts
-│   │   ├── leave.controller.ts
-│   │   └── dashboard.controller.ts
-│   ├── custom-types/    # TypeScript interfaces
-│   │   ├── user.types.ts
-│   │   ├── leave.types.ts
-│   │   └── attendance.types.ts
-│   ├── enums/          # Application enums
-│   │   ├── user-role.enum.ts
-│   │   ├── leave-type.enum.ts
-│   │   └── leave-status.enum.ts
-│   ├── middlewares/    # Express middlewares
-│   │   └── auth.middleware.ts
-│   ├── models/         # Mongoose schemas
-│   │   ├── user.model.ts
-│   │   ├── leave.model.ts
-│   │   └── attendance.model.ts
-│   ├── routes/         # API route definitions
-│   │   ├── user.routes.ts
-│   │   ├── attendance.routes.ts
-│   │   ├── leave.routes.ts
-│   │   └── dashboard.routes.ts
-│   ├── scripts/        # Database seeding
-│   │   └── seed.ts
-│   ├── utils/          # Utility functions
-│   │   └── jwt.ts
-│   └── index.ts        # Application entry point
-├── package.json
-└── tsconfig.json
-```
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js (v16 or higher)
 - MongoDB (local or cloud instance)
 - npm or yarn
 
@@ -128,190 +54,133 @@ server/
    cd employee-attendance-system
    ```
 
-2. **Install dependencies**
+2. **Setup Backend**
 
    ```bash
    cd server
    npm install
+   cp .env.example .env  # Configure your environment variables
+   npm run seed          # Seed database with test data
+   npm run dev           # Start backend server
    ```
 
-3. **Environment Setup**
-   Create a `.env` file in the server directory:
-
-   ```env
-   # Database
-   MONGO_URI=mongodb://localhost:27017/employee-attendance-system
-
-   # JWT
-   JWT_SECRET=your-super-secret-jwt-key-here
-
-   # Server
-   PORT=4000
-   ```
-
-4. **Seed the database**
+3. **Setup Frontend** (in a new terminal)
 
    ```bash
-   npm run seed
+   cd client
+   npm install
+   npm run dev           # Start frontend development server
    ```
 
-5. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+4. **Access the Application**
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:4000`
 
-The server will start on `http://localhost:4000`
+## 🔐 Test Credentials
 
-## 📚 API Endpoints
+After seeding the database, you can login with:
 
-### Authentication
+- **Admin Account:**
 
-- `POST /auth/register` - Register a new user
-- `POST /auth/login` - Login user
+  - Email: `admin@company.com`
+  - Password: `admin123`
 
-### Attendance
+- **Employee Accounts:**
+  - Email: `john.doe@company.com` / Password: `employee123`
+  - Email: `jane.smith@company.com` / Password: `employee123`
 
-- `POST /attendance/check-in` - Check in for the day
-- `POST /attendance/check-out` - Check out for the day
-- `GET /attendance/my-attendance` - Get personal attendance history
-- `GET /attendance/today` - Get today's attendance status
+## 📚 API Documentation
 
-### Leave Management
+The system exposes RESTful APIs for:
 
-- `POST /leaves/apply` - Apply for leave (Employee)
-- `GET /leaves/my-leaves` - Get personal leave history (Employee)
-- `GET /leaves/all` - Get all leave requests (Admin)
-- `PATCH /leaves/:leaveId/approve` - Approve leave request (Admin)
-- `PATCH /leaves/:leaveId/reject` - Reject leave request (Admin)
+- **Authentication**: User registration and login
+- **Attendance**: Check-in/out and attendance history
+- **Leave Management**: Apply, approve/reject leaves
+- **Dashboard**: Admin and employee statistics
 
-### Dashboard
+For detailed API documentation, see the [Backend README](./server/README.md).
 
-- `GET /dashboard/admin` - Admin dashboard data
-- `GET /dashboard/employee` - Employee dashboard data
+## 🎨 User Interface
 
-### Health Check
+### Admin Features
 
-- `GET /health` - Server health check
+- Company-wide attendance overview
+- Leave request management (approve/reject)
+- Employee statistics and reports
+- Dashboard with key metrics
 
-## 🔐 Authentication
+### Employee Features
 
-All protected routes require a Bearer token in the Authorization header:
+- Personal attendance tracking
+- Leave application and history
+- Dashboard with personal metrics
+- Check-in/out functionality
 
-```
-Authorization: Bearer <your-jwt-token>
-```
-
-### Test Credentials (after seeding)
-
-- **Admin:** admin@company.com / admin123
-- **Employee:** john.doe@company.com / employee123
-- **Employee:** jane.smith@company.com / employee123
+For UI documentation, see the [Frontend README](./client/README.md).
 
 ## 📊 Business Rules
 
-### Leave Balance Logic
+### Leave Management
 
-- Default leave balance: 20 days per year
-- Working days calculation excludes weekends
-- Leave balance is automatically deducted on approval
-- Cannot apply for leave if insufficient balance
+- Default 20 days annual leave balance
+- Working days calculation (excludes weekends)
+- Automatic balance deduction on approval
+- Validation for past dates and overlapping requests
 
 ### Attendance Rules
 
-- One check-in/check-out per day
-- Hours worked calculated automatically
-- Cannot check-out without checking in first
-- Cannot check-in twice in the same day
+- Single check-in/check-out per day
+- Automatic hours calculation
+- Cannot check-out without check-in
 
-### Validation Rules
+## 🧪 Testing
 
-- Cannot request leave for past dates
-- Cannot overlap with existing approved/pending leaves
-- Leave requests require approval from admin
-- All dates are validated for proper format
-
-## 🧪 Testing the API
-
-### Using Postman/Thunder Client
-
-1. **Register/Login**
-
-   ```json
-   POST /auth/login
-   {
-     "email": "admin@company.com",
-     "password": "admin123"
-   }
-   ```
-
-2. **Check In**
-
-   ```json
-   POST /attendance/check-in
-   Authorization: Bearer <token>
-   ```
-
-3. **Apply for Leave**
-
-   ```json
-   POST /leaves/apply
-   Authorization: Bearer <token>
-   {
-     "startDate": "2024-03-01",
-     "endDate": "2024-03-03",
-     "leaveType": "vacation",
-     "reason": "Family vacation"
-   }
-   ```
-
-4. **Get Dashboard Data**
-   ```json
-   GET /dashboard/employee
-   Authorization: Bearer <token>
-   ```
+Use the provided Postman collection (`server/postman_collection.json`) to test all API endpoints with sample data.
 
 ## 🚀 Production Deployment
 
-1. **Build the application**
+1. **Backend Deployment**
 
    ```bash
+   cd server
    npm run build
-   ```
-
-2. **Start production server**
-
-   ```bash
    npm start
    ```
 
-3. **Environment Variables**
-   Make sure to set proper environment variables for production:
-   - `MONGO_URI` - Production MongoDB connection string
-   - `JWT_SECRET` - Strong, unique JWT secret
+2. **Frontend Deployment**
 
----
+   ```bash
+   cd client
+   npm run build
+   # Deploy the dist/ folder to your hosting service
+   ```
 
-## 🧰 Postman Collection
+3. **Environment Configuration**
+   - Set production MongoDB URI
+   - Configure strong JWT secrets
+   - Update CORS settings for production domains
 
-A Postman collection is available for testing all API endpoints:
+## 📁 Repository Structure
 
-- Import `postman_collection.json` from the repository
-- Contains all authentication, attendance, leave, and dashboard endpoints
-- Includes sample request bodies and headers for quick testing
-
----
+- **`/server`** - Backend API server ([Documentation](./server/README.md))
+- **`/client`** - Frontend React application ([Documentation](./client/README.md))
 
 ## 👨‍💻 Author
 
 **Deep Gandhi**
 
 - Email: [deepgandhi65@gmail.com](mailto:deepgandhi65@gmail.com)
+- GitHub: [@Deep65](https://github.com/Deep65)
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+
+1. Check the individual README files for component-specific help
+2. Review the API documentation in the backend README
+3. Use the provided Postman collection for API testing
+4. Open an issue on GitHub for bugs or feature requests
 
 ---
 
-## 🔧 Available Scripts
-
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build the application for production
-- `npm start` - Start production server
-- `npm run seed` - Seed the database with mock data
+**Need help getting started?** Check out the detailed setup guides in the [Backend](./server/README.md) and [Frontend](./client/README.md) documentation.
