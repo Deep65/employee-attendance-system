@@ -106,13 +106,13 @@ export const getMyAttendance = async (
         1,
       );
     } else {
-      startDate.setMonth(startDate.getMonth() - 1); // Default to last month
+      startDate.setMonth(startDate.getMonth() - 1);
     }
     startDate.setHours(0, 0, 0, 0);
 
     const endDate = new Date(startDate);
     endDate.setMonth(endDate.getMonth() + 1);
-    endDate.setDate(0); // Last day of the month
+    endDate.setDate(0);
     endDate.setHours(23, 59, 59, 999);
 
     const attendance = await Attendance.find({
@@ -162,4 +162,3 @@ export const getTodayAttendance = async (
       .json({ message: 'Server error' });
   }
 };
-

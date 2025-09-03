@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Paper,
@@ -13,16 +13,19 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  type SelectChangeEvent,
 } from "@mui/material";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
+import { registrationStyles } from "./Registration.styles";
+import { UserRole } from "../../types";
 
-export const Register: React.FC = () => {
+export const Registration = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role: "employee" as "admin" | "employee",
+    role: UserRole.EMPLOYEE,
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,17 +34,13 @@ export const Register: React.FC = () => {
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleRoleChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-    setFormData({
-      ...formData,
-      role: e.target.value as "admin" | "employee",
-    });
+  const handleRoleChange = (
+    e: SelectChangeEvent<(typeof UserRole)[keyof typeof UserRole]>
+  ) => {
+    setFormData({ ...formData, role: e.target.value as UserRole });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,22 +67,9 @@ export const Register: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Paper elevation={3} sx={{ padding: 4, width: "100%" }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+      <Box sx={registrationStyles.containerBox}>
+        <Paper elevation={3} sx={registrationStyles.paper}>
+          <Box sx={registrationStyles.innerBox}>
             <Typography component="h1" variant="h4" gutterBottom>
               Employee Portal
             </Typography>
@@ -92,7 +78,7 @@ export const Register: React.FC = () => {
             </Typography>
 
             {error && (
-              <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+              <Alert severity="error" sx={registrationStyles.alert}>
                 {error}
               </Alert>
             )}
@@ -100,7 +86,7 @@ export const Register: React.FC = () => {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              sx={{ mt: 1, width: "100%" }}
+              sx={registrationStyles.formBox}
             >
               <TextField
                 margin="normal"
@@ -154,12 +140,12 @@ export const Register: React.FC = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={registrationStyles.submitButton}
                 disabled={loading}
               >
                 {loading ? <CircularProgress size={24} /> : "Sign Up"}
               </Button>
-              <Box textAlign="center">
+              <Box sx={registrationStyles.linkBox}>
                 <Link component={RouterLink} to="/login" variant="body2">
                   Already have an account? Sign In
                 </Link>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Grid,
   Card,
@@ -19,10 +19,10 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { People, EventNote, AccessTime, TrendingUp } from "@mui/icons-material";
-import { dashboardAPI } from "../services/api";
-import type { AdminDashboard as AdminDashboardType } from "../types";
+import { dashboardAPI } from "../../services/api";
+import type { AdminDashboard as AdminDashboardType } from "../../types";
 
-export const AdminDashboard: React.FC = () => {
+export const AdminDashboard = () => {
   const [dashboardData, setDashboardData] = useState<AdminDashboardType | null>(
     null
   );
@@ -101,7 +101,6 @@ export const AdminDashboard: React.FC = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        {/* Total Employees */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent>
@@ -119,7 +118,6 @@ export const AdminDashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Pending Leaves */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent>
@@ -137,7 +135,6 @@ export const AdminDashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Today's Attendance */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent>
@@ -158,7 +155,6 @@ export const AdminDashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Monthly Average */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent>
@@ -179,7 +175,6 @@ export const AdminDashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Recent Leave Requests */}
         <Grid size={12}>
           <Card>
             <CardContent>

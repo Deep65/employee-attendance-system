@@ -1,6 +1,5 @@
-import React from "react";
 import { Dashboard, AccessTime, EventNote } from "@mui/icons-material";
-import { BaseLayout } from "./BaseLayout";
+import { BaseLayout } from "../BaseLayout/BaseLayout.component";
 
 interface EmployeeLayoutProps {
   children: React.ReactNode;
@@ -19,4 +18,3 @@ export const EmployeeLayout: React.FC<EmployeeLayoutProps> = ({ children }) => {
     </BaseLayout>
   );
 };
-

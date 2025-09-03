@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Card,
@@ -28,15 +28,16 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { Add, EventNote } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import { leaveAPI } from "../services/api";
-import type { Leave, LeaveRequest } from "../types";
+import { leaveAPI } from "../../services/api";
+import { LeaveType, type Leave, type LeaveRequest } from "../../types";
+import { leaveStyles } from "./LeaveManagement.styles";
 
-export const LeaveManagement: React.FC = () => {
+export const LeaveManagement = () => {
   const [leaves, setLeaves] = useState<Leave[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -45,9 +46,10 @@ export const LeaveManagement: React.FC = () => {
   const [leaveForm, setLeaveForm] = useState<LeaveRequest>({
     startDate: "",
     endDate: "",
-    leaveType: "vacation",
+    leaveType: LeaveType.VACATION,
     reason: "",
   });
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -79,7 +81,7 @@ export const LeaveManagement: React.FC = () => {
       setLeaveForm({
         startDate: "",
         endDate: "",
-        leaveType: "vacation",
+        leaveType: LeaveType.VACATION,
         reason: "",
       });
       await fetchLeaves();
@@ -108,18 +110,12 @@ export const LeaveManagement: React.FC = () => {
     }
   };
 
-  const getLeaveTypeLabel = (type: string) => {
-    return type.replace("_", " ").toUpperCase();
-  };
+  const getLeaveTypeLabel = (type: string) =>
+    type.replace("_", " ").toUpperCase();
 
   if (loading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="50vh"
-      >
+      <Box sx={leaveStyles.loadingBox}>
         <CircularProgress />
       </Box>
     );
@@ -132,21 +128,14 @@ export const LeaveManagement: React.FC = () => {
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={leaveStyles.alert}>
           {error}
         </Alert>
       )}
 
       <Card>
         <CardContent>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={2}
-            flexDirection={isMobile ? "column" : "row"}
-            gap={2}
-          >
+          <Box sx={leaveStyles.headerBox(isMobile)}>
             <Typography variant="h6">My Leave Requests</Typography>
             <Button
               variant="contained"
@@ -161,10 +150,7 @@ export const LeaveManagement: React.FC = () => {
           <TableContainer
             component={Paper}
             variant="outlined"
-            sx={{
-              maxHeight: isMobile ? 400 : 600,
-              overflow: "auto",
-            }}
+            sx={leaveStyles.tableContainer(isMobile)}
           >
             <Table stickyHeader>
               <TableHead>
@@ -197,10 +183,8 @@ export const LeaveManagement: React.FC = () => {
                         {new Date(leave.endDate).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
-                        {isMobile
-                          ? leave.reason.length > 20
-                            ? `${leave.reason.substring(0, 20)}...`
-                            : leave.reason
+                        {isMobile && leave.reason.length > 20
+                          ? `${leave.reason.substring(0, 20)}...`
                           : leave.reason}
                       </TableCell>
                       <TableCell>
@@ -231,7 +215,6 @@ export const LeaveManagement: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Apply for Leave Dialog */}
       <Dialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
@@ -281,16 +264,15 @@ export const LeaveManagement: React.FC = () => {
                       onChange={(e) =>
                         setLeaveForm({
                           ...leaveForm,
-                          leaveType: e.target.value as
-                            | "vacation"
-                            | "sick"
-                            | "work_from_home",
+                          leaveType: e.target.value as LeaveType,
                         })
                       }
                     >
-                      <MenuItem value="vacation">Vacation</MenuItem>
-                      <MenuItem value="sick">Sick Leave</MenuItem>
-                      <MenuItem value="work_from_home">Work from Home</MenuItem>
+                      <MenuItem value={LeaveType.VACATION}>Vacation</MenuItem>
+                      <MenuItem value={LeaveType.SICK}>Sick Leave</MenuItem>
+                      <MenuItem value={LeaveType.WORK_FROM_HOME}>
+                        Work from Home
+                      </MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

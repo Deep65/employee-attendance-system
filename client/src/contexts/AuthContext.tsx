@@ -1,5 +1,4 @@
-// AuthProvider.tsx
-import React, { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { authAPI } from "../services/api";
 import type { AuthContextType } from "./AuthContextType";
 import type {
@@ -47,7 +46,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const response: AuthResponse = await authAPI.login(credentials);
     const { token: newToken, role } = response;
 
-    // Build a minimal User object
     const userData: User = {
       role,
     };

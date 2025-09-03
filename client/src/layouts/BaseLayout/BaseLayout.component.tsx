@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   AppBar,
   Box,
@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon, Logout } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { sxBaseStyles } from "./BaseLayout.styles";
 
 interface BaseLayoutProps {

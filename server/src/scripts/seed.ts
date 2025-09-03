@@ -120,11 +120,9 @@ const seedData = async () => {
       const date = new Date(startOfMonth);
       date.setDate(date.getDate() + i);
 
-      // Skip weekends
       if (date.getDay() === 0 || date.getDay() === 6) continue;
 
       for (const employee of createdEmployees.slice(0, 3)) {
-        // Only first 3 employees
         const checkIn = new Date(date);
         checkIn.setHours(9, Math.floor(Math.random() * 30), 0, 0);
 
@@ -159,4 +157,3 @@ const seedData = async () => {
 };
 
 seedData();
-

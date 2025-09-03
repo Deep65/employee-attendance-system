@@ -1,9 +1,25 @@
-// types.ts
+export enum UserRole {
+  ADMIN = "admin",
+  EMPLOYEE = "employee",
+}
+
+export enum LeaveType {
+  VACATION = "vacation",
+  SICK = "sick",
+  WORK_FROM_HOME = "work_from_home",
+}
+
+export enum LeaveStatus {
+  PENDING = "pending",
+  APPROVED = "approved",
+  REJECTED = "rejected",
+}
+
 export interface User {
   _id?: string;
   name?: string;
   email?: string;
-  role: "admin" | "employee";
+  role: UserRole;
   leaveBalance?: number;
   totalLeaveDaysUsed?: number;
   createdAt?: string;
@@ -19,12 +35,12 @@ export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
-  role: "admin" | "employee";
+  role: UserRole;
 }
 
 export interface AuthResponse {
   token: string;
-  role: "admin" | "employee";
+  role: UserRole;
 }
 
 export interface Attendance {
@@ -45,9 +61,9 @@ export interface Leave {
   employee: string | User;
   startDate: string;
   endDate: string;
-  leaveType: "vacation" | "sick" | "work_from_home";
+  leaveType: LeaveType;
   reason: string;
-  status: "pending" | "approved" | "rejected";
+  status: LeaveStatus;
   approvedBy?: string | User;
   approvedAt?: string;
   rejectedAt?: string;
@@ -59,7 +75,7 @@ export interface Leave {
 export interface LeaveRequest {
   startDate: string;
   endDate: string;
-  leaveType: "vacation" | "sick" | "work_from_home";
+  leaveType: LeaveType;
   reason: string;
 }
 

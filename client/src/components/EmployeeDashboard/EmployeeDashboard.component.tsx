@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Grid,
   Card,
@@ -18,10 +18,11 @@ import {
   CheckCircle,
   Cancel,
 } from "@mui/icons-material";
-import { dashboardAPI, attendanceAPI } from "../services/api";
-import type { EmployeeDashboard as EmployeeDashboardType } from "../types";
+import { dashboardAPI, attendanceAPI } from "../../services/api";
+import type { EmployeeDashboard as EmployeeDashboardType } from "../../types";
+import { styles } from "./EmployeeDashboard.styles";
 
-export const EmployeeDashboard: React.FC = () => {
+export const EmployeeDashboard = () => {
   const [dashboardData, setDashboardData] =
     useState<EmployeeDashboardType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -86,12 +87,7 @@ export const EmployeeDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="50vh"
-      >
+      <Box sx={styles.loadingBox}>
         <CircularProgress />
       </Box>
     );
@@ -99,7 +95,7 @@ export const EmployeeDashboard: React.FC = () => {
 
   if (error) {
     return (
-      <Alert severity="error" sx={{ mb: 2 }}>
+      <Alert severity="error" sx={styles.errorAlert}>
         {error}
       </Alert>
     );
@@ -116,12 +112,11 @@ export const EmployeeDashboard: React.FC = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        {/* Leave Balance Card */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <EventNote color="primary" sx={{ mr: 1 }} />
+              <Box sx={styles.cardHeader}>
+                <EventNote color="primary" sx={styles.cardIcon} />
                 <Typography variant="h6">Leave Balance</Typography>
               </Box>
               <Typography variant="h3" color="primary">
@@ -130,22 +125,25 @@ export const EmployeeDashboard: React.FC = () => {
               <Typography variant="body2" color="text.secondary">
                 days remaining
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={styles.leaveUsedText}
+              >
                 Used: {user.totalLeaveDaysUsed} days
               </Typography>
             </CardContent>
           </Card>
         </Grid>
 
-        {/* Today's Attendance Card */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <AccessTime color="primary" sx={{ mr: 1 }} />
+              <Box sx={styles.cardHeader}>
+                <AccessTime color="primary" sx={styles.cardIcon} />
                 <Typography variant="h6">Today's Status</Typography>
               </Box>
-              <Box display="flex" alignItems="center" mb={2}>
+              <Box sx={styles.chipRow}>
                 {todayAttendance.isCheckedIn ? (
                   <Chip
                     icon={<CheckCircle />}
@@ -181,12 +179,11 @@ export const EmployeeDashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Pending Leaves Card */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <EventNote color="primary" sx={{ mr: 1 }} />
+              <Box sx={styles.cardHeader}>
+                <EventNote color="primary" sx={styles.cardIcon} />
                 <Typography variant="h6">Pending Leaves</Typography>
               </Box>
               <Typography variant="h3" color="primary">
@@ -199,14 +196,13 @@ export const EmployeeDashboard: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Attendance Actions */}
         <Grid size={{ xs: 12 }}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Quick Actions
               </Typography>
-              <Box display="flex" gap={2} flexWrap="wrap">
+              <Box sx={styles.actionsBox}>
                 {!todayAttendance.isCheckedIn ? (
                   <Button
                     variant="contained"

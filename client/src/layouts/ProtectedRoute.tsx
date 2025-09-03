@@ -1,11 +1,11 @@
-import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Box, CircularProgress } from "@mui/material";
+import type { UserRole } from "../types";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole?: "admin" | "employee";
+  requiredRole?: UserRole;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({

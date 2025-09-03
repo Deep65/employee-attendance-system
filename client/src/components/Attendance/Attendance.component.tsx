@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Card,
@@ -21,17 +21,18 @@ import {
   MenuItem,
   useTheme,
   useMediaQuery,
+  Grid,
 } from "@mui/material";
-import { Grid } from "@mui/material";
 import { Person, CheckCircle, Cancel, AccessTime } from "@mui/icons-material";
-import { attendanceAPI, dashboardAPI } from "../services/api";
+import { attendanceAPI, dashboardAPI } from "../../services/api";
 import type {
   Attendance,
   TodayAttendanceResponse,
   EmployeeDashboard as EmployeeDashboardType,
-} from "../types";
+} from "../../types";
+import { attendanceStyles } from "./Attendance.styles";
 
-export const AttendanceComponent: React.FC = () => {
+export const AttendanceComponent = () => {
   const [todayAttendance, setTodayAttendance] =
     useState<TodayAttendanceResponse | null>(null);
   const [attendanceHistory, setAttendanceHistory] = useState<Attendance[]>([]);
@@ -156,12 +157,7 @@ export const AttendanceComponent: React.FC = () => {
 
   if (loading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="50vh"
-      >
+      <Box sx={attendanceStyles.loadingBox}>
         <CircularProgress />
       </Box>
     );
@@ -174,24 +170,26 @@ export const AttendanceComponent: React.FC = () => {
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={attendanceStyles.alert}>
           {error}
         </Alert>
       )}
 
       <Grid container spacing={10}>
-        {/* Today's Attendance Card */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <AccessTime color="primary" sx={{ mr: 1 }} />
+              <Box sx={attendanceStyles.cardHeader}>
+                <AccessTime
+                  color="primary"
+                  sx={attendanceStyles.chipIconMargin}
+                />
                 <Typography variant="h6">Today's Attendance</Typography>
               </Box>
 
               {todayAttendance && (
-                <Box>
-                  <Box display="flex" alignItems="center" mb={2}>
+                <>
+                  <Box sx={attendanceStyles.cardHeader}>
                     {todayAttendance.isCheckedIn ? (
                       <Chip
                         icon={<CheckCircle />}
@@ -266,18 +264,17 @@ export const AttendanceComponent: React.FC = () => {
                       </Typography>
                     )}
                   </Box>
-                </Box>
+                </>
               )}
             </CardContent>
           </Card>
         </Grid>
 
-        {/* Monthly Hours Card */}
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <Person color="primary" sx={{ mr: 1 }} />
+              <Box sx={attendanceStyles.cardHeader}>
+                <Person color="primary" sx={attendanceStyles.chipIconMargin} />
                 <Typography variant="h6">This Month</Typography>
               </Box>
               <Typography variant="h3" color="primary">
@@ -293,15 +290,13 @@ export const AttendanceComponent: React.FC = () => {
           </Card>
         </Grid>
 
-        {/* Attendance History (Filters + Table) */}
         <Grid size={{ xs: 12 }}>
           <Card>
             <CardContent>
-              {/* Filter Attendance History */}
               <Typography variant="h6" gutterBottom>
                 Filter Attendance History
               </Typography>
-              <Box display="flex" gap={2} flexWrap="wrap" mb={3}>
+              <Box sx={attendanceStyles.filterBox}>
                 <FormControl size="small" sx={{ minWidth: 120 }}>
                   <InputLabel>Month</InputLabel>
                   <Select
@@ -337,7 +332,6 @@ export const AttendanceComponent: React.FC = () => {
                 </FormControl>
               </Box>
 
-              {/* Attendance History Table */}
               <Typography variant="h6" gutterBottom>
                 Attendance History
               </Typography>
@@ -345,8 +339,8 @@ export const AttendanceComponent: React.FC = () => {
                 component={Paper}
                 variant="outlined"
                 sx={{
-                  maxHeight: isMobile ? 400 : 600,
                   overflow: "auto",
+                  maxHeight: isMobile ? 400 : 600,
                 }}
               >
                 <Table stickyHeader>

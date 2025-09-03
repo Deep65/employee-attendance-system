@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Card,
@@ -28,10 +28,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
-import { leaveAPI } from "../services/api";
-import type { Leave } from "../types";
+import { leaveAPI } from "../../services/api";
+import type { Leave } from "../../types";
+import { adminLeaveStyles } from "./AdminLeaveManagement.styles";
 
-export const AdminLeaveManagement: React.FC = () => {
+export const AdminLeaveManagement = () => {
   const [leaves, setLeaves] = useState<Leave[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -42,6 +43,7 @@ export const AdminLeaveManagement: React.FC = () => {
   const [rejectionReason, setRejectionReason] = useState("");
   const [processing, setProcessing] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -68,7 +70,6 @@ export const AdminLeaveManagement: React.FC = () => {
 
   const handleApprove = async () => {
     if (!selectedLeave) return;
-
     setProcessing(true);
     try {
       await leaveAPI.approveLeave(selectedLeave._id);
@@ -89,7 +90,6 @@ export const AdminLeaveManagement: React.FC = () => {
 
   const handleReject = async () => {
     if (!selectedLeave) return;
-
     setProcessing(true);
     try {
       await leaveAPI.rejectLeave(selectedLeave._id, rejectionReason);
@@ -122,9 +122,8 @@ export const AdminLeaveManagement: React.FC = () => {
     }
   };
 
-  const getLeaveTypeLabel = (type: string) => {
-    return type.replace("_", " ").toUpperCase();
-  };
+  const getLeaveTypeLabel = (type: string) =>
+    type.replace("_", " ").toUpperCase();
 
   const openActionDialog = (leave: Leave, action: "approve" | "reject") => {
     setSelectedLeave(leave);
@@ -133,12 +132,7 @@ export const AdminLeaveManagement: React.FC = () => {
 
   if (loading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="50vh"
-      >
+      <Box sx={adminLeaveStyles.loadingBox}>
         <CircularProgress />
       </Box>
     );
@@ -151,7 +145,7 @@ export const AdminLeaveManagement: React.FC = () => {
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={adminLeaveStyles.alert}>
           {error}
         </Alert>
       )}
@@ -159,15 +153,13 @@ export const AdminLeaveManagement: React.FC = () => {
       <Card>
         <CardContent>
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={2}
-            flexDirection={isMobile ? "column" : "row"}
-            gap={2}
+            sx={{
+              ...adminLeaveStyles.cardContentBox,
+              flexDirection: isMobile ? "column" : "row",
+            }}
           >
             <Typography variant="h6">All Leave Requests</Typography>
-            <FormControl size="small" sx={{ minWidth: 150 }}>
+            <FormControl size="small" sx={adminLeaveStyles.filterControl}>
               <InputLabel>Filter by Status</InputLabel>
               <Select
                 value={statusFilter}
@@ -186,8 +178,8 @@ export const AdminLeaveManagement: React.FC = () => {
             component={Paper}
             variant="outlined"
             sx={{
+              ...adminLeaveStyles.tableContainer,
               maxHeight: isMobile ? 400 : 600,
-              overflow: "auto",
             }}
           >
             <Table stickyHeader>
@@ -237,16 +229,7 @@ export const AdminLeaveManagement: React.FC = () => {
                       <TableCell>
                         <Chip
                           label={leave.status.toUpperCase()}
-                          color={
-                            getStatusColor(leave.status) as
-                              | "default"
-                              | "primary"
-                              | "secondary"
-                              | "error"
-                              | "info"
-                              | "success"
-                              | "warning"
-                          }
+                          color={getStatusColor(leave.status)}
                           size="small"
                         />
                       </TableCell>
@@ -256,9 +239,10 @@ export const AdminLeaveManagement: React.FC = () => {
                       <TableCell>
                         {leave.status === "pending" && (
                           <Box
-                            display="flex"
-                            gap={1}
-                            flexDirection={isMobile ? "column" : "row"}
+                            sx={{
+                              ...adminLeaveStyles.actionButtonsBox,
+                              flexDirection: isMobile ? "column" : "row",
+                            }}
                           >
                             <Button
                               size="small"
@@ -292,7 +276,6 @@ export const AdminLeaveManagement: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Approve Dialog */}
       <Dialog
         open={actionDialog === "approve"}
         onClose={() => setActionDialog(null)}
@@ -334,7 +317,6 @@ export const AdminLeaveManagement: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Reject Dialog */}
       <Dialog
         open={actionDialog === "reject"}
         onClose={() => setActionDialog(null)}
@@ -354,7 +336,7 @@ export const AdminLeaveManagement: React.FC = () => {
                 label="Rejection Reason"
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
-                sx={{ mt: 2 }}
+                sx={adminLeaveStyles.rejectionTextField}
               />
             </Box>
           )}

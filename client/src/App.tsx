@@ -1,59 +1,31 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { AdminLayout } from "./layouts/AdminLayout/AdminLayout.component";
+import { EmployeeLayout } from "./layouts/EmployeeLayout/EmployeeLayout";
+import { ProtectedRoute } from "./layouts/ProtectedRoute";
+import { UserRole } from "./types";
+import { AdminDashboard } from "./components/AdminDashboard/AdminDashboard";
+import { AdminLeaveManagement } from "./components/AdminLeaveManagement/AdminLeaveManagement.component";
+import { Login } from "./components/Login/Login.component";
+import { Registration } from "./components/Registration/Registration.component";
+import { EmployeeDashboard } from "./components/EmployeeDashboard/EmployeeDashboard.component";
+import { AttendanceComponent } from "./components/Attendance/Attendance.component";
+import { LeaveManagement } from "./components/LeaveManagement/LeaveManagement.component";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useAuth } from "./hooks/useAuth";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { AdminLayout } from "./layouts/AdminLayout";
-import { EmployeeLayout } from "./layouts/EmployeeLayout";
-import { Login } from "./components/Login";
-import { Register } from "./components/Register";
-import { AdminDashboard } from "./components/AdminDashboard";
-import { EmployeeDashboard } from "./components/EmployeeDashboard";
-import { AttendanceComponent } from "./components/Attendance";
-import { LeaveManagement } from "./components/LeaveManagement";
-import { AdminLeaveManagement } from "./components/AdminLeaveManagement";
+import { theme } from "./theme";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-    },
-    secondary: {
-      main: "#dc004e",
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
-const AppRoutes: React.FC = () => {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/register" element={<Registration />} />
 
       {/* Admin Routes */}
       <Route
         path="/admin/*"
         element={
-          <ProtectedRoute requiredRole="admin">
+          <ProtectedRoute requiredRole={UserRole.ADMIN}>
             <AdminLayout>
               <Routes>
                 <Route path="/dashboard" element={<AdminDashboard />} />
@@ -68,7 +40,7 @@ const AppRoutes: React.FC = () => {
       <Route
         path="/employee/*"
         element={
-          <ProtectedRoute requiredRole="employee">
+          <ProtectedRoute requiredRole={UserRole.EMPLOYEE}>
             <EmployeeLayout>
               <Routes>
                 <Route path="/dashboard" element={<EmployeeDashboard />} />
@@ -101,14 +73,18 @@ const AppRoutes: React.FC = () => {
   );
 };
 
-const RootRedirect: React.FC = () => {
+const RootRedirect = () => {
   const { user } = useAuth();
 
   console.log(user, "user");
 
   return user ? (
     <Navigate
-      to={user.role === "admin" ? "/admin/dashboard" : "/employee/dashboard"}
+      to={
+        user.role === UserRole.ADMIN
+          ? "/admin/dashboard"
+          : "/employee/dashboard"
+      }
       replace
     />
   ) : (
@@ -121,9 +97,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <Router>
+        <BrowserRouter>
           <AppRoutes />
-        </Router>
+        </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>
   );

@@ -1,6 +1,5 @@
-import React from "react";
 import { Dashboard, EventNote } from "@mui/icons-material";
-import { BaseLayout } from "./BaseLayout";
+import { BaseLayout } from "../BaseLayout/BaseLayout.component";
 
 interface AdminLayoutProps {
   children: React.ReactNode;

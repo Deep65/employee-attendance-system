@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Paper,
@@ -10,10 +10,11 @@ import {
   CircularProgress,
   Link,
 } from "@mui/material";
-import { useNavigate, useLocation, Link as RouterLink } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useNavigate, Link as RouterLink } from "react-router";
+import { useAuth } from "../../hooks/useAuth";
+import { loginStyles } from "./Login.styles";
 
-export const Login: React.FC = () => {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,7 +22,6 @@ export const Login: React.FC = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,22 +45,9 @@ export const Login: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Paper elevation={3} sx={{ padding: 4, width: "100%" }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+      <Box sx={loginStyles.containerBox}>
+        <Paper elevation={3} sx={loginStyles.paper}>
+          <Box sx={loginStyles.innerBox}>
             <Typography component="h1" variant="h4" gutterBottom>
               Employee Portal
             </Typography>
@@ -69,7 +56,7 @@ export const Login: React.FC = () => {
             </Typography>
 
             {error && (
-              <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+              <Alert severity="error" sx={loginStyles.alert}>
                 {error}
               </Alert>
             )}
@@ -77,7 +64,7 @@ export const Login: React.FC = () => {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              sx={{ mt: 1, width: "100%" }}
+              sx={loginStyles.formBox}
             >
               <TextField
                 margin="normal"
@@ -107,7 +94,7 @@ export const Login: React.FC = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={loginStyles.submitButton}
                 disabled={loading}
               >
                 {loading ? <CircularProgress size={24} /> : "Sign In"}
@@ -121,7 +108,7 @@ export const Login: React.FC = () => {
           </Box>
         </Paper>
 
-        <Box sx={{ mt: 4, textAlign: "center" }}>
+        <Box sx={loginStyles.demoBox}>
           <Typography variant="body2" color="text.secondary">
             Demo Credentials:
           </Typography>
